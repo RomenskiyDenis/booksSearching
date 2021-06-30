@@ -1,7 +1,8 @@
-.navbar{ background:#F97300;}
+<!--.navbar{ background:#F97300;}-->
+.navbar{ background:darkgray;}
 .nav-link , .navbar-brand{ color: #f4f4f4; cursor: pointer;}
 .nav-link{ margin-right: 1em !important;}
-.nav-link:hover{ background: #f4f4f4; color: #f97300; }
+.nav-link:hover{ background:gainsboro; color: chocolate; }
 .navbar-collapse{ justify-content: flex-end;}
 .navbar-toggler{  background:#fff !important;}
 .bg-dark{
