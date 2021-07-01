@@ -2,7 +2,7 @@
 .navbar{ background:darkgray;}
 .nav-link , .navbar-brand{ color: #f4f4f4; cursor: pointer;}
 .nav-link{ margin-right: 1em !important;}
-.nav-link:hover{ background:gainsboro; color: chocolate; }
+.nav-link:hover{ background:gainsboro; color: white; }
 .navbar-collapse{ justify-content: flex-end;}
 .navbar-toggler{  background:#fff !important;}
 .bg-dark{
