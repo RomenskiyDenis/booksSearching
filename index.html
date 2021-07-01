@@ -16,16 +16,24 @@
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
             <div class="navbar-title">
-                <img src="assets/images/img_navbar.png" alt="" width="40" height="40" class="d-inline-block align-text-top">
+                <img src="assets/images/img_navbar.png" alt="" width="50" height="50" class="img-thumbnail">
                 {{siteName}}
             </div>
                 <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Введите наименование" aria-label="Введите наименование">
-                    <button class="btn btn-outline-success" type="submit">Поиск</button>
+                    <input v-model.trim="searchPar" class="form-control me-2" type="search" placeholder="Введите наименование" aria-label="Введите наименование">
+                    <button class="btn btn-outline-success" type="submit" v-on:click="getDataGson">Поиск</button>
                 </form>
         </div>
     </nav>
     </header>
+    <main>
+        <div class="col-md-12 verify">
+                    <pre>
+                        Параметр поиска: {{searchPar}}
+
+                    </pre>
+        </div>
+    </main>
 </div>
 <!--Подключаем плагин-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -37,6 +45,12 @@
           siteName:'BooksSearching',
           searchPar:'',
         },
+        methods:{
+            getDataGson: function (){
+                let paramString = this.searchPar;
+                alert('Осуществляется поиск '+paramString);
+            }
+        }
     })
 </script>
 </body>
