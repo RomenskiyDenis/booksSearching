@@ -1,5 +1,5 @@
 
-.navbar{ background:darkgray;}
+.navbar-title{vertical-align: middle;}
 
 .nav-link{ margin-right: 1em !important;}
 .nav-link:hover{ background:gainsboro; color: white; }

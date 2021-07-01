@@ -7,23 +7,37 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+    <script src="https://unpkg.com/vue"></script>
     <title>booksSearching!</title>
 </head>
 <body>
-<nav class="navbar navbar-light bg-light">
-    <div class="container-fluid">
-       <div class="navbar-brand">
-            <img src="assets/images/img_navbar.png" alt="" width="35" height="35" class="d-inline-block align-text-top">
-            BooksSeraching
+<div id="app">
+    <header>
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <div class="navbar-title">
+                <img src="assets/images/img_navbar.png" alt="" width="40" height="40" class="d-inline-block align-text-top">
+                {{siteName}}
+            </div>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Введите наименование" aria-label="Введите наименование">
+                    <button class="btn btn-outline-success" type="submit">Поиск</button>
+                </form>
         </div>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Введите наименование" aria-label="Введите наименование">
-                <button class="btn btn-outline-success" type="submit">Поиск</button>
-            </form>
-    </div>
-</nav>
+    </nav>
+    </header>
+</div>
 <!--Подключаем плагин-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
+<script type="text/javascript">
+    let APP_LOG_LIFECYCLE_EVENTS=false;
+    let webstore = new Vue({
+        el:'#app',
+        data:{
+          siteName:'BooksSearching',
+          searchPar:'',
+        },
+    })
+</script>
 </body>
 </html>
