@@ -19,9 +19,9 @@
                 <img src="assets/images/img_navbar.png" alt="" width="50" height="50" class="img-thumbnail">
                 {{siteName}}
             </div>
-                <form class="d-flex">
+                <form class="d-flex" @submit.prevent="getDataGson">
                     <input v-model.trim="searchPar" class="form-control me-2" type="search" placeholder="Введите наименование" aria-label="Введите наименование">
-                    <button class="btn btn-outline-success" type="submit" v-on:click="getDataGson">Поиск</button>
+                    <button class="btn btn-outline-success" type="submit">Поиск</button>
                 </form>
         </div>
     </nav>
@@ -29,7 +29,7 @@
     <main>
         <div class="col-md-12 verify">
                     <pre>
-                        Параметр поиска: {{searchPar}}
+                        Параметр поиска: {{booksData}}
 
                     </pre>
         </div>
@@ -41,14 +41,33 @@
     let APP_LOG_LIFECYCLE_EVENTS=false;
     let webstore = new Vue({
         el:'#app',
-        data:{
-          siteName:'BooksSearching',
-          searchPar:'',
+        data(){
+            return {
+                siteName:'BooksSearching',
+            searchPar:'',
+            booksData:[]
+            }
+
         },
         methods:{
-            getDataGson: function (){
-                let paramString = this.searchPar;
-                alert('Осуществляется поиск '+paramString);
+            getDataGson(){
+                console.log('send ws');
+                /*axios.get(`https://www.googleapis.com/books/v1/volumes?q=`+this.searchPar)
+                    .then(response => {
+                        console.log('json'+response.data);
+                        this.booksData = response.data;
+                    }).catch(e=>{
+                        console.log(e);
+                })*/
+                console.log(this.searchPar)
+                fetch('https://www.googleapis.com/books/v1/volumes?q='+this.searchPar)
+                    .then(response => response.json())
+                    .then(json => {
+                        console.log(json);
+                        this.booksData = json;
+                    }).catch(e=>{
+                        console.log(e);
+                    });
             }
         }
     })
