@@ -10,10 +10,10 @@
     <script src="https://unpkg.com/vue"></script>
     <title>booksSearching!</title>
 </head>
-<body>
+<body style="padding-top: 65px">
 <div id="app">
     <header>
-    <nav class="navbar navbar-light bg-light">
+    <nav id="navbarSearch" class="navbar fixed-top navbar-light bg-light">
         <div class="container-fluid">
             <div class="navbar-title">
                 <img src="assets/images/img_navbar.png" alt="" width="50" height="50" class="img-thumbnail">
@@ -27,15 +27,9 @@
     </nav>
     </header>
     <main>
-        <div class="col-md-12 verify">
-                    <pre>
-                        Параметр поиска: {{booksData.searchPar}}
-
-                    </pre>
-        </div>
         <div v-for="item in booksData">
             <div class="row">
-                <div class="card mb-3" style="max-width: 540px;">
+                <div class="card mb-3" style="max-width: 840px;">
                     <div class="row g-0">
                         <div class="col-md-4">
                             <img :src="'http://books.google.com/books/content?id=' + item.id +
@@ -43,8 +37,18 @@
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
+                                <a :href="`${item.previewLink}`" class="card-link">
                                 <h5 class="card-title">{{item.title}}</h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                </a>
+                                <h6>❖{{item.author}}❖{{item.publishedDate}}</h6>
+                                <div class="row g-0">
+                                    <div class="col-md-10">
+                                        <p class="card-text">{{item.shortDescription}}</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="button" class="btn btn-outline-info" v-on:click="switchDescription(item)">Подробнее</button>
+                                    </div>
+                                </div>
                                 <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                             </div>
                         </div>
@@ -63,13 +67,20 @@
         el:'#app',
         data(){
             return {
-                siteName:'BooksSearching',
+            siteName:'BooksSearching',
             searchPar:'',
             booksData:[]
             }
 
         },
         methods:{
+            switchDescription (aBook){
+                aBook.showFullDescription = !aBook.showFullDescription;
+                aBook.shortDescription = aBook.showFullDescription?aBook.description:aBook.description.substring(0,200)+"...";
+            },
+            showDescription(aBook) {
+              aBook.shortDescription = aBook.showFullDescription?aBook.description:aBook.shortDescription;
+            },
             getDataGson(){
                 console.log('send ws');
                 /*axios.get(`https://www.googleapis.com/books/v1/volumes?q=`+this.searchPar)
@@ -79,15 +90,30 @@
                     }).catch(e=>{
                         console.log(e);
                 })*/
-                console.log(this.searchPar)
                 fetch('https://www.googleapis.com/books/v1/volumes?q='+this.searchPar)
                     .then(response => response.json())
                     .then(json => {
                         console.log(json);
+                        this.booksData = [];
                         for(let i in json.items){
+                            let authorStr = 'Автор: ';
+                            if (json.items[i].volumeInfo.authors.length>1){
+                                for (let j in json.items[i].volumeInfo.authors){
+                                    authorStr+=json.items[i].volumeInfo.authors[j]+'; ';
+                                }
+                            } else if (json.items[i].volumeInfo.authors.length===1){
+                                authorStr+=json.items[i].volumeInfo.authors[0];
+                            } else authorStr+=' не определен';
+
                             this.booksData.push({
                                 "id":json.items[i].id,
                                 "title":json.items[i].volumeInfo.title,
+                                'author':authorStr,
+                                'publishedDate':'Год издания: '+json.items[i].volumeInfo.publishedDate.split('-')[0],
+                                'shortDescription':json.items[i].volumeInfo.description.substring(0,200)+"...",
+                                'description':json.items[i].volumeInfo.description,
+                                'previewLink':json.items[i].volumeInfo.previewLink,
+                                'showFullDescription':false,
                             })
                         }
 
